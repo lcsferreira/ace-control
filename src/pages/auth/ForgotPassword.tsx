@@ -50,6 +50,8 @@ export default function ForgotPassword() {
     try {
       // Simulação de envio de email de recuperação
       setTimeout(() => {
+        console.log("Email enviado com sucesso");
+        console.log(data);
         setSuccess(true);
       }, 1500);
     } catch (err) {

@@ -16,11 +16,11 @@ import {
   Grid,
   Link,
 } from "@mui/material";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { registerSchema } from "../schemas/authSchema";
-import { RegisterForm } from "../types/authTypes";
+import { registerSchema } from "../../schemas/authSchema";
+import { RegisterForm } from "../../types/authTypes";
 
 export default function Register() {
   const navigate = useNavigate();

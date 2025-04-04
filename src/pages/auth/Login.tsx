@@ -17,11 +17,11 @@ import {
   Link,
   Divider,
 } from "@mui/material";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { LoginForm } from "../types/authTypes";
-import { loginSchema } from "../schemas/authSchema";
+import { LoginForm } from "../../types/authTypes";
+import { loginSchema } from "../../schemas/authSchema";
 
 export default function Login() {
   const navigate = useNavigate();

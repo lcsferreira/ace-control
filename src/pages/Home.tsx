@@ -1,41 +1,23 @@
-import { Button, Typography, Box, Container, Paper } from "@mui/material";
-import { useAuth } from "../contexts/AuthContext";
+import { Typography, Box, Stack } from "@mui/material";
 
 export default function Home() {
-  const { user, logout } = useAuth();
-
   return (
-    <Container maxWidth="md">
-      <Box sx={{ mt: 4 }}>
-        <Paper elevation={3} sx={{ p: 4 }}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Bem-vindo ao ACE Control
-          </Typography>
+    <Box>
+      <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
+        Dashboard
+      </Typography>
 
-          <Typography variant="h6" gutterBottom>
-            Olá, {user?.name}!
-          </Typography>
+      <Typography variant="body1" color="text.secondary">
+        Bem-vindo ao painel de controle do ACE Control
+      </Typography>
 
-          <Typography variant="body1">
-            Esta é a página inicial do sistema. Aqui você terá acesso a todas as
-            funcionalidades disponíveis de acordo com o seu perfil de usuário.
-          </Typography>
-
-          <Box sx={{ mt: 3 }}>
-            <Button variant="contained" color="primary">
-              Dashboard
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              sx={{ ml: 2 }}
-              onClick={logout}
-            >
-              Sair
-            </Button>
-          </Box>
-        </Paper>
-      </Box>
-    </Container>
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        spacing={3}
+        sx={{ mt: 2 }}
+        useFlexGap
+        flexWrap="wrap"
+      ></Stack>
+    </Box>
   );
 }
