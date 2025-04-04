@@ -15,58 +15,53 @@ import {
   CardContent,
   Grid,
   Link,
-  Divider,
 } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext";
 import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { LoginForm } from "../types/authTypes";
-import { loginSchema } from "../schemas/authSchema";
+import { registerSchema } from "../schemas/authSchema";
+import { RegisterForm } from "../types/authTypes";
 
-export default function Login() {
+export default function Register() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // Configuração do react-hook-form com validação
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<LoginForm>({
-    resolver: yupResolver(loginSchema),
+  } = useForm<RegisterForm>({
+    resolver: yupResolver(registerSchema),
     mode: "onChange",
   });
 
-  const onSubmit = async (data: LoginForm) => {
+  const onSubmit = async (data: RegisterForm) => {
     setIsLoading(true);
 
     try {
-      const success = await login(data.email, data.password);
-      if (success) {
-        navigate("/");
-      } else {
-        setError("root", {
-          type: "manual",
-          message: "Email ou senha inválidos",
+      // Simulação de registro
+      setTimeout(() => {
+        // Após o registro bem-sucedido, faz login automático
+        login(data.email, data.password).then((success) => {
+          if (success) {
+            navigate("/");
+          }
         });
-      }
+      }, 1000);
     } catch (err) {
       setError("root", {
         type: "manual",
-        message: "Ocorreu um erro ao fazer login",
+        message: "Ocorreu um erro ao criar sua conta",
       });
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
   };
 
   return (
@@ -107,10 +102,10 @@ export default function Login() {
                     color="primary"
                     gutterBottom
                   >
-                    ACE Control
+                    Criar Conta
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
-                    Faça login para acessar o sistema
+                    Preencha os dados para se cadastrar
                   </Typography>
                 </Box>
 
@@ -137,10 +132,23 @@ export default function Login() {
                   <TextField
                     margin="normal"
                     fullWidth
+                    id="name"
+                    label="Nome completo"
+                    autoComplete="name"
+                    autoFocus
+                    variant="outlined"
+                    error={!!errors.name}
+                    helperText={errors.name?.message}
+                    sx={{ mb: 3 }}
+                    {...register("name")}
+                  />
+
+                  <TextField
+                    margin="normal"
+                    fullWidth
                     id="email"
                     label="Email"
                     autoComplete="email"
-                    autoFocus
                     variant="outlined"
                     error={!!errors.email}
                     helperText={errors.email?.message}
@@ -154,18 +162,17 @@ export default function Login() {
                     label="Senha"
                     type={showPassword ? "text" : "password"}
                     id="password"
-                    autoComplete="current-password"
                     variant="outlined"
                     error={!!errors.password}
                     helperText={errors.password?.message}
-                    sx={{ mb: 2 }}
+                    sx={{ mb: 3 }}
                     {...register("password")}
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton
                             aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
+                            onClick={() => setShowPassword(!showPassword)}
                             edge="end"
                           >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -175,18 +182,37 @@ export default function Login() {
                     }}
                   />
 
-                  <Box sx={{ textAlign: "right", mb: 3 }}>
-                    <Link
-                      onClick={() => navigate("/esqueci-senha")}
-                      sx={{
-                        cursor: "pointer",
-                        fontSize: "0.875rem",
-                        "&:hover": { textDecoration: "underline" },
-                      }}
-                    >
-                      Esqueci minha senha
-                    </Link>
-                  </Box>
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    label="Confirmar Senha"
+                    type={showConfirmPassword ? "text" : "password"}
+                    id="confirmPassword"
+                    variant="outlined"
+                    error={!!errors.confirmPassword}
+                    helperText={errors.confirmPassword?.message}
+                    sx={{ mb: 3 }}
+                    {...register("confirmPassword")}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() =>
+                              setShowConfirmPassword(!showConfirmPassword)
+                            }
+                            edge="end"
+                          >
+                            {showConfirmPassword ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
 
                   <Button
                     type="submit"
@@ -195,7 +221,7 @@ export default function Login() {
                     size="large"
                     disabled={isLoading}
                     sx={{
-                      mt: 1,
+                      mt: 2,
                       mb: 3,
                       py: 1.5,
                       fontWeight: "bold",
@@ -203,27 +229,17 @@ export default function Login() {
                       boxShadow: 3,
                     }}
                   >
-                    {isLoading ? "Entrando..." : "Entrar"}
+                    {isLoading ? "Criando conta..." : "Criar conta"}
                   </Button>
 
-                  <Divider sx={{ my: 2 }}>
+                  <Box sx={{ textAlign: "center" }}>
                     <Typography variant="body2" color="text.secondary">
-                      ou
-                    </Typography>
-                  </Divider>
-
-                  <Box sx={{ textAlign: "center", mt: 2 }}>
-                    <Typography variant="body2">
-                      Não tem uma conta?{" "}
+                      Já tem uma conta?{" "}
                       <Link
-                        onClick={() => navigate("/cadastro")}
-                        sx={{
-                          cursor: "pointer",
-                          fontWeight: "bold",
-                          "&:hover": { textDecoration: "underline" },
-                        }}
+                        onClick={() => navigate("/login")}
+                        sx={{ cursor: "pointer", fontWeight: "bold" }}
                       >
-                        Cadastre-se
+                        Fazer login
                       </Link>
                     </Typography>
                   </Box>

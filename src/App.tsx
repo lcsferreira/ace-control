@@ -3,6 +3,8 @@ import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
         <Routes>
           {/* Rotas Públicas */}
           <Route path="/login" element={<Login />} />
+          <Route path="/cadastro" element={<Register />} />
+          <Route path="/esqueci-senha" element={<ForgotPassword />} />
 
           {/* Rotas Privadas */}
           <Route element={<PrivateRoute />}>

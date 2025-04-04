@@ -16,7 +16,7 @@ export default function Home() {
             Olá, {user?.name}!
           </Typography>
 
-          <Typography paragraph>
+          <Typography variant="body1">
             Esta é a página inicial do sistema. Aqui você terá acesso a todas as
             funcionalidades disponíveis de acordo com o seu perfil de usuário.
           </Typography>
