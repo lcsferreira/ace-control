@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import PrivateLayout from "../layouts/PrivateLayout";
+import ConfigurationCheck from "./ConfigurationCheck";
 
 export default function PrivateRoute() {
   const { isAuthenticated } = useAuth();
@@ -10,10 +11,13 @@ export default function PrivateRoute() {
     return <Navigate to="/login" replace />;
   }
 
-  // Se estiver autenticado, renderiza o componente filho dentro do layout privado
+  // Se estiver autenticado, verifica se o usuário já configurou seu perfil
+  // e renderiza o componente filho dentro do layout privado
   return (
-    <PrivateLayout>
-      <Outlet />
-    </PrivateLayout>
+    <ConfigurationCheck>
+      <PrivateLayout>
+        <Outlet />
+      </PrivateLayout>
+    </ConfigurationCheck>
   );
 }

@@ -69,4 +69,5 @@ export type User = {
   position: PlayerPosition;
   image: string;
   stats: PlayerStats;
+  hasConfigured: boolean;
 };
